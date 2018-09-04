@@ -28,7 +28,7 @@ namespace surveillanceProgram
             }
             Console.ReadLine();
             */
-            string[] programList = { "LeagueClient" };
+            string[] programList = { "LeagueClient" ,"MapleStory" , "awesomium_process"};
             foreach (string program in programList)
             {
                 for (int i = 0; i < 20; i++)
