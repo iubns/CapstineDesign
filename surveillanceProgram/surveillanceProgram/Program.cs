@@ -13,7 +13,8 @@ namespace surveillanceProgram
     {
         static void Main(string[] args)
         {
-            IPAddress ipAddress = IPAddress.Parse("172.17.128.17");
+            /*
+            IPAddress ipAddress = IPAddress.Parse("172.17.128.18");
             IPEndPoint ipep = new IPEndPoint(ipAddress, 9001);
 
             Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -28,7 +29,7 @@ namespace surveillanceProgram
             }
             Console.ReadLine();
             */
-            string[] programList = { "LeagueClient" };
+            string[] programList = { "LeagueClient", "KakaoTalk" };
             foreach (string program in programList)
             {
                 for (int i = 0; i < 20; i++)
