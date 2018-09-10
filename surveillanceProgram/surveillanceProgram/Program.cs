@@ -13,7 +13,6 @@ namespace surveillanceProgram
     {
         static void Main(string[] args)
         {
-            /*
             IPAddress ipAddress = IPAddress.Parse("172.17.128.18");
             IPEndPoint ipep = new IPEndPoint(ipAddress, 9001);
 
@@ -29,20 +28,20 @@ namespace surveillanceProgram
             }
             Console.ReadLine();
             */
-            string[] programList = { "LeagueClient" ,"MapleStory" , "awesomium_process" ,"KakaoTalk"};
+            string[] programList = { "LeagueClient" ,"MapleStory", "KakaoTalk", "chrome" };
             foreach (string program in programList)
             {
                 for (int i = 0; i < 20; i++)
                 {
                     var info = Process.GetProcessesByName(program).FirstOrDefault();
-
+                    
                     if (info != null)
                     {
                         try
                         {
-                            Console.WriteLine(info.MainModule.FileVersionInfo.ProductName);
-                            Console.WriteLine(info.MainModule.FileVersionInfo.FileDescription);
                             info.Kill();
+                            info.Close();
+                            info.Dispose();
                         }
                         catch
                         {
