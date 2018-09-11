@@ -25,11 +25,12 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
+            Background = new SolidColorBrush(Colors.Black);
             Hide();
             Load();
         }
-
-        private static async void Load()
+        
+        private async void Load()
         {
             SocketObject server = new SocketObject();
             server.Send("student");
@@ -43,6 +44,12 @@ namespace ComputerControl
                         KillGame();
                         break;
                     case "TurnOffScreen":
+                        Show();
+                        Topmost = true;
+                        break;
+                    case "TurnOnScreen":
+                        Hide();
+                        Topmost = false;
                         break;
                     case "TurnOffComputer":
                         TrunOffSomputer();
@@ -51,12 +58,12 @@ namespace ComputerControl
             }
         }
 
-        private static void TrunOffSomputer()
+        private void TrunOffSomputer()
         {
             Process.Start("shutdown.exe", "-s -f");
         }
 
-        private static void FillScreen()
+        private void FillScreen()
         {
 
         }
