@@ -3,32 +3,52 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace surveillanceProgram
+namespace ComputerControl
 {
-    class Program
+    /// <summary>
+    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        static void Main(string[] args)
+        public MainWindow()
+        {
+            InitializeComponent();
+            Hide();
+            Load();
+        }
+
+        private static async void Load()
         {
             SocketObject server = new SocketObject();
             server.Send("student");
-            string temp =  server.Receive();
-            switch (temp)
+            while (true)
             {
-                case "TurnOffGame":
-                    KillGame();
-                    break;
-                case "TurnOffScreen":
-                    break;
-                case "TurnOffComputer":
-                    break;
-
+                await Task.Delay(1);
+                string temp = server.Receive();
+                switch (temp)
+                {
+                    case "TurnOffGame":
+                        KillGame();
+                        break;
+                    case "TurnOffScreen":
+                        break;
+                    case "TurnOffComputer":
+                        TrunOffSomputer();
+                        break;
+                }
             }
-            
         }
 
         private static void TrunOffSomputer()
@@ -38,18 +58,18 @@ namespace surveillanceProgram
 
         private static void FillScreen()
         {
-            // Change WPF
+
         }
 
         private static void KillGame()
         {
-            string[] programList = { /*"LeagueClient" ,"MapleStory", "KakaoTalk",*/ "chrome" };
+            string[] programList = { /*"MapleStory", "KakaoTalk",*/"LeagueClient" , "chrome" };
             foreach (string program in programList)
             {
                 for (int i = 0; i < 20; i++)
                 {
                     var info = Process.GetProcessesByName(program).FirstOrDefault();
-                    
+
                     if (info != null)
                     {
                         try
@@ -65,7 +85,6 @@ namespace surveillanceProgram
                     }
                 }
             }
-
         }
     }
 }
