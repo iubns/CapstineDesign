@@ -1,19 +1,9 @@
 ﻿using CapstoneDesign;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ComputerControl
 {
@@ -30,9 +20,9 @@ namespace ComputerControl
             Load();
         }
         
+        SocketObject server = new SocketObject();
         private async void Load()
         {
-            SocketObject server = new SocketObject();
             server.Send("student");
             while (true)
             {
@@ -44,12 +34,10 @@ namespace ComputerControl
                         KillGame();
                         break;
                     case "TurnOffScreen":
-                        Show();
-                        Topmost = true;
+                        TurnOffScreen();
                         break;
                     case "TurnOnScreen":
-                        Hide();
-                        Topmost = false;
+                        TurnOnScreen();
                         break;
                     case "TurnOffComputer":
                         TrunOffSomputer();
@@ -58,19 +46,37 @@ namespace ComputerControl
             }
         }
 
+        string[] programList = { /*"MapleStory", "KakaoTalk",*/"LeagueClient", "chrome" };
+        private async Task r()
+        {
+            await Task.Delay(1000);
+            foreach(string gameName in programList)
+                if (1 < Process.GetProcessesByName(gameName).Length)
+                {
+                    server.Send("게임 감지");
+                }
+
+        } 
+
         private void TrunOffSomputer()
         {
             Process.Start("shutdown.exe", "-s -f");
         }
 
-        private void FillScreen()
+        private void TurnOffScreen()
         {
-
+            Show();
+            Topmost = true;
         }
 
-        private static void KillGame()
+        private void TurnOnScreen()
         {
-            string[] programList = { /*"MapleStory", "KakaoTalk",*/"LeagueClient" , "chrome" };
+            Hide();
+            Topmost = false;
+        }
+
+        private void KillGame()
+        {
             foreach (string program in programList)
             {
                 for (int i = 0; i < 20; i++)
