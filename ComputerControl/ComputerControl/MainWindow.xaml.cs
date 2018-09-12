@@ -82,6 +82,12 @@ namespace ComputerControl
             }
         }
 
+        private void login(object sender, RoutedEventArgs e)
+        {
+            WebConnection web = new WebConnection();
+            string userName = web.GetUserName(inputID.Text,inputPW.Password);
+        }
+
         private void TrunOffSomputer()
         {
             Process.Start("shutdown.exe", "-s -f");
@@ -124,5 +130,6 @@ namespace ComputerControl
                 }
             }
         }
+
     }
 }
