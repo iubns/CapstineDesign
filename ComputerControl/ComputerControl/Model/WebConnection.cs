@@ -48,12 +48,17 @@ namespace ComputerControl.Model
             str.Flush(); str.Close(); str.Dispose();
             Encoding euckr = Encoding.GetEncoding(51949);
             result = (new StreamReader(((HttpWebResponse)Hwr.GetResponse()).GetResponseStream(), euckr).ReadToEnd());
-
-            result = result.Split(new string[] { "font-size: 9pt;padding-left: 5px;height: 23px;color: #FFFFFF;\">" }, StringSplitOptions.None)[1];
-            result = result.Split(new string[] { "</b>" }, StringSplitOptions.None)[0];
-            result = result.Split('>')[1];
-            result = result.Split('&')[0];
-            
+            try
+            {
+                result = result.Split(new string[] { "font-size: 9pt;padding-left: 5px;height: 23px;color: #FFFFFF;\">" }, StringSplitOptions.None)[1];
+                result = result.Split(new string[] { "</b>" }, StringSplitOptions.None)[0];
+                result = result.Split('>')[1];
+                result = result.Split('&')[0];
+            }
+            catch
+            {
+                result = "Error";
+            }
             return result;
         }
     }

@@ -1,10 +1,14 @@
 ﻿using CapstoneDesign;
 using ComputerControl.Model;
+using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace ComputerControl
 {
@@ -16,50 +20,67 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
-            WebConnection web = new WebConnection();
-            web.GetUserName("201702040", "");
-            Background = new SolidColorBrush(Colors.Black);
-            Hide();
-            Load();
+            //로그인 완료시
+
+            Thread thread = new Thread(Load);
+            thread.Start();
+            thread = new Thread(r);
+            thread.Start();
         }
-        
+
         SocketObject server = new SocketObject();
-        private async void Load()
+        private void Load()
         {
             server.Send("student");
             while (true)
             {
-                await Task.Delay(1);
                 string temp = server.Receive();
                 switch (temp)
                 {
                     case "TurnOffGame":
-                        KillGame();
+                        Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                        {
+                            KillGame();
+                        }));
                         break;
                     case "TurnOffScreen":
-                        TurnOffScreen();
+                        Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                        {
+                            TurnOffScreen();
+                        }));
                         break;
                     case "TurnOnScreen":
-                        TurnOnScreen();
+                        Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                        {
+                            TurnOnScreen();
+                        }));
                         break;
                     case "TurnOffComputer":
-                        TrunOffSomputer();
+                        Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                        {
+                            TrunOffSomputer();
+                        }));
                         break;
                 }
             }
         }
 
         string[] programList = { /*"MapleStory", "KakaoTalk",*/"LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
-        private async Task r()
+        private void r()
         {
-            await Task.Delay(1000);
-            foreach(string gameName in programList)
-                if (1 < Process.GetProcessesByName(gameName).Length)
+            while (true)
+            {
+                Thread.Sleep(1000);
+                foreach (string gameName in programList)
                 {
-                    server.Send("게임 감지");
+                    if (1 <= Process.GetProcessesByName(gameName).Length)
+                    {
+                        server.Send("게임 감지\n");
+                        break;
+                    }
                 }
-
-        } 
+            }
+        }
 
         private void TrunOffSomputer()
         {
@@ -69,6 +90,7 @@ namespace ComputerControl
         private void TurnOffScreen()
         {
             Show();
+            Background = new SolidColorBrush(Colors.Black);
             Topmost = true;
         }
 
