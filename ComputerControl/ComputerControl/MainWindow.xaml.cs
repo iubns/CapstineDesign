@@ -16,8 +16,6 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
-            WebConnection web = new WebConnection();
-            web.GetUserName("201702040", "");
             Background = new SolidColorBrush(Colors.Black);
             Hide();
             Load();
@@ -61,6 +59,12 @@ namespace ComputerControl
 
         } 
 
+        private void login(object sender, RoutedEventArgs e)
+        {
+            WebConnection web = new WebConnection();
+            string userName = web.GetUserName(inputID.Text,inputPW.Password);
+        }
+
         private void TrunOffSomputer()
         {
             Process.Start("shutdown.exe", "-s -f");
@@ -102,5 +106,6 @@ namespace ComputerControl
                 }
             }
         }
+
     }
 }

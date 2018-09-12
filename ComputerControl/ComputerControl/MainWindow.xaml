@@ -8,8 +8,33 @@
         WindowStyle="None" 
         ResizeMode="NoResize" 
         WindowState="Maximized"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Height="250" Width="600">
+    <Grid Background="#BCADA8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="75"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="165"/>
+            <ColumnDefinition Width="150"/>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="19*"/>
+            <RowDefinition Height="58*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="58*"/>
+            <RowDefinition Height="38*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="inputID" Grid.Row="3" Grid.Column="3" Margin="0,5,50,0"/>
+        <Label Content="ID :" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="3" Width="29"/>
+        <Label Content="Psswerd :" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Width="61"/>
+        <Button Grid.Column="3" Grid.Row="5" Content="login" Click="login" Margin="50,5,50,32"/>
+        <PasswordBox x:Name="inputPW" Grid.Row="4" Grid.Column="3" Margin="0,6,50,0"/>
+
+
+        <Image Source="img/logo.png" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="0,0,0,18"/>
+
     </Grid>
 </Window>
