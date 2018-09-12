@@ -49,7 +49,7 @@ namespace ComputerControl
             }
         }
 
-        string[] programList = { /*"MapleStory", "KakaoTalk",*/"LeagueClient", "chrome" };
+        string[] programList = { /*"MapleStory", "KakaoTalk",*/"LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
         private async Task r()
         {
             await Task.Delay(1000);
