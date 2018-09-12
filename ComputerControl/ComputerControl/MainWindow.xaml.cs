@@ -20,12 +20,6 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
-            //로그인 완료시
-
-            Thread thread = new Thread(Load);
-            thread.Start();
-            thread = new Thread(r);
-            thread.Start();
         }
 
         SocketObject server = new SocketObject();
@@ -65,7 +59,7 @@ namespace ComputerControl
             }
         }
 
-        string[] programList = { /*"MapleStory", "KakaoTalk",*/"LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
+        string[] programList = { /*"MapleStory"*/, "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
         private void r()
         {
             while (true)
@@ -86,6 +80,11 @@ namespace ComputerControl
         {
             WebConnection web = new WebConnection();
             string userName = web.GetUserName(inputID.Text,inputPW.Password);
+            if(userName != "error")
+            {
+                new Thread(Load).Start();
+                new Thread(r).Start();
+            }
         }
 
         private void TrunOffSomputer()
