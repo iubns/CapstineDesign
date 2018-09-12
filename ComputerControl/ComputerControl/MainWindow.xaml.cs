@@ -1,4 +1,5 @@
 ﻿using CapstoneDesign;
+using ComputerControl.Model;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
+            WebConnection web = new WebConnection();
+            web.GetUserName("201702040", "");
             Background = new SolidColorBrush(Colors.Black);
             Hide();
             Load();
