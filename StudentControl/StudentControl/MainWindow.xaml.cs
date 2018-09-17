@@ -1,0 +1,69 @@
+﻿using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Threading;
+
+namespace StudentControl
+{
+    /// <summary>
+    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        SocketObject socket;
+        public MainWindow()
+        {
+            InitializeComponent();
+            IPAddress ipAddress = IPAddress.Parse("121.65.76.85");
+            IPEndPoint ipep = new IPEndPoint(ipAddress, 9001);
+            Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            server.Connect(ipep);
+
+            socket = new SocketObject(server);
+            socket.Send("pro");
+
+            GameOffButton.Background = new ImageBrush() { ImageSource = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/" + "GAME_OFF.png") };
+            GameOffButton.BorderThickness = new Thickness(0.0);
+            GameOffButton.BorderBrush = new SolidColorBrush(Colors.Transparent);
+
+            Thread thread = new Thread(Recive);
+            thread.Start();
+        }
+
+
+
+        private void Recive()
+        {
+            while (true)
+            {
+                string temp = socket.Receive();
+                Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                {
+                    log.Text += temp;
+                }));
+            }
+        }
+
+        public void GameOff(object o, EventArgs e)
+        {
+            socket.Send("TurnOffGame");
+        }
+        public void ScreenOff(object o, EventArgs e)
+        {
+            socket.Send("TurnOffScreen");
+        }
+        public void PowerOff(object o, EventArgs e)
+        {
+            socket.Send("TurnOffComputer");
+        }
+        public void ScreenOn(object o, EventArgs e)
+        {
+            socket.Send("TurnOnScreen");
+        }
+    }
+}
