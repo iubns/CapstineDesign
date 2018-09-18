@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CapstoneDesignServer
@@ -32,14 +33,14 @@ namespace CapstoneDesignServer
                     {
                         professor = client;
                         Console.WriteLine("교수님 접속!");
-                        Recive();
+                        new Thread(Recive).Start();
                     }
                     else
                     {
                         sockets.Add(client);
                         Console.WriteLine("학생 접속!");
                         client.Send(login);
-                        StudentReceive(client); //비동기 오류
+                        new Thread(StudentReceive).Start();
                     }
                 }
             }catch(Exception e)
@@ -48,16 +49,20 @@ namespace CapstoneDesignServer
             }
         }
 
-        static async Task StudentReceive(SocketObject student)
+        static void StudentReceive()
         {
-            if (professor != null)
+            SocketObject student = sockets[sockets.Count-1];
+            while (true)
             {
-                professor.Send(student.Receive());
-                await Task.Delay(10);
+                if (professor != null)
+                {
+                    string temp = student.Receive();
+                    professor.Send(temp);
+                }
             }
         }
 
-        static async Task Recive()
+        static void Recive()
         {
             while (true)
             {
@@ -83,7 +88,6 @@ namespace CapstoneDesignServer
                         sockets.RemoveAt(index);
                     }
                 }
-                await Task.Delay(10);
             }
         }
     }

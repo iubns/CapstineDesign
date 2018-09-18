@@ -1,5 +1,6 @@
 ﻿using CapstoneDesign;
 using ComputerControl.Model;
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -20,7 +21,23 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
-            new Thread(Load).Start();
+            resistAutoStart();
+        }
+
+        private void resistAutoStart()
+        {
+            string temp = Process.GetCurrentProcess().MainModule.FileName;
+            try
+            {
+                RegistryKey reg = Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion").CreateSubKey("Run");
+                reg.SetValue("CompterControl", temp);
+                Debug.WriteLine("자동실행 등록 성공");
+                return;
+            }
+            catch
+            {
+                Debug.WriteLine("자동실행 등록 실패");
+            }
         }
 
         SocketObject server = new SocketObject();
@@ -97,6 +114,7 @@ namespace ComputerControl
             userName = web.GetUserName(inputID.Text,inputPW.Password);
             if(userName != "error")
             {
+               new Thread(Load).Start();
                new Thread(seachingGame).Start();
                TurnOnScreen();
             }
