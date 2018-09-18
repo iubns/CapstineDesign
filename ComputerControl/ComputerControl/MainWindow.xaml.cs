@@ -1,5 +1,6 @@
 ﻿using CapstoneDesign;
 using ComputerControl.Model;
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -17,12 +19,31 @@ namespace ComputerControl
     /// </summary>
     public partial class MainWindow : Window
     {
+      
         public MainWindow()
         {
             InitializeComponent();
+            this.KeyDown += MainWindow_KeyDown;
+            this.Closing += MainWindow_Closing;
             new Thread(Load).Start();
         }
 
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt))
+                  && Keyboard.IsKeyDown(Key.F4)) { 
+            }
+            if(Keyboard.IsKeyDown(Key.LWin) || Keyboard.IsKeyDown(Key.RWin))
+            {
+                e.Handled = true;
+            }
+        }
+       
         SocketObject server = new SocketObject();
         private void Load()
         {
