@@ -27,14 +27,21 @@ namespace StudentControl
             socket = new SocketObject(server);
             socket.Send("pro");
 
-            GameOffButton.Background = new ImageBrush() { ImageSource = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/" + "GAME_OFF.png") };
-            GameOffButton.BorderThickness = new Thickness(0.0);
-            GameOffButton.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            makeButton(GameOffButton, "GAME_OFF.png");
+            makeButton(ScreenOffButton, "SCREEN_OFF.png");
+            makeButton(ScreenOnButton, "SCREEN_ON.png");
+            makeButton(PowerOffButton, "POWER_OFF.png");
 
             Thread thread = new Thread(Recive);
             thread.Start();
         }
 
+        private void makeButton(Button button, string url)
+        {
+            button.Background = new ImageBrush() { ImageSource = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/" + url) };
+            button.BorderThickness = new Thickness(0.0);
+            button.BorderBrush = new SolidColorBrush(Colors.Transparent);
+        }
 
 
         private void Recive()

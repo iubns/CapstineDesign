@@ -59,7 +59,7 @@ namespace ComputerControl
             }
         }
 
-        string[] programList = { /*"MapleStory"*/, "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
+        string[] programList = { /*"MapleStory"*/ "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
         private void r()
         {
             while (true)
