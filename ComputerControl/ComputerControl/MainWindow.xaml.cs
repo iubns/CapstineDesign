@@ -90,6 +90,7 @@ namespace ComputerControl
             if(userName != "error")
             {
                new Thread(seachingGame).Start();
+               TurnOnScreen();
             }
         }
 
