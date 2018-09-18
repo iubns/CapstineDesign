@@ -79,6 +79,7 @@ namespace ComputerControl
                             TurnOnScreen();
                         }));
                         break;
+
                 }
             }
         }
@@ -119,6 +120,8 @@ namespace ComputerControl
                TurnOnScreen();
             }
         }
+
+        
 
         private void TrunOffSomputer()
         {
