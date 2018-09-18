@@ -10,6 +10,7 @@ namespace CapstoneDesignServer
     {
         static List<SocketObject> sockets = new List<SocketObject>();
         public static SocketObject professor = null;
+        static string login = "TurnOnLogin";
         static void Main(string[] args)
         {
             Socket server = null;
@@ -37,6 +38,7 @@ namespace CapstoneDesignServer
                     {
                         sockets.Add(client);
                         Console.WriteLine("학생 접속!");
+                        client.Send(login);
                         StudentReceive(client); //비동기 오류
                     }
                 }
@@ -61,6 +63,14 @@ namespace CapstoneDesignServer
             {
                 string comment = professor.Receive();
                 Console.WriteLine(comment);
+                if(comment == "TurnOffLogin")
+                {
+                    login = "TurnOffLogin";
+                }
+                else if(comment == "TurnOnLogin")
+                {
+                    login = "TurnOnLogin";
+                }
                 Console.WriteLine($"학생수 : {sockets.Count}");
                 for (int index = 0; index < sockets.Count; index++)
                 {

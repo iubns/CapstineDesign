@@ -77,17 +77,25 @@ namespace ComputerControl
                 {
                     if (1 <= Process.GetProcessesByName(gameName).Length)
                     {
-                        server.Send("게임 감지\n");
+                        if (userName == "error")
+                        {
+                            server.Send("게임 감지\n");
+                        }
+                        else
+                        {
+                            server.Send($"{userName} 게임 감지\n");
+                        }
                         break;
                     }
                 }
             }
         }
 
+        string userName = "";
         private void login(object sender, RoutedEventArgs e)
         {
             WebConnection web = new WebConnection();
-            string userName = web.GetUserName(inputID.Text,inputPW.Password);
+            userName = web.GetUserName(inputID.Text,inputPW.Password);
             if(userName != "error")
             {
                new Thread(seachingGame).Start();
