@@ -20,6 +20,7 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
+            new Thread(Load).Start();
         }
 
         SocketObject server = new SocketObject();
@@ -55,12 +56,18 @@ namespace ComputerControl
                             TrunOffSomputer();
                         }));
                         break;
+                    case "TurnOffLogin":
+                        Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                        {
+                            TurnOnScreen();
+                        }));
+                        break;
                 }
             }
         }
 
-        string[] programList = { /*"MapleStory"*/ "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
-        private void r()
+        string[] programList = { /*"MapleStory,"*/ "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
+        private void seachingGame()
         {
             while (true)
             {
@@ -82,8 +89,8 @@ namespace ComputerControl
             string userName = web.GetUserName(inputID.Text,inputPW.Password);
             if(userName != "error")
             {
-                new Thread(Load).Start();
-                new Thread(r).Start();
+               new Thread(seachingGame).Start();
+               TurnOnScreen();
             }
         }
 
@@ -95,7 +102,8 @@ namespace ComputerControl
         private void TurnOffScreen()
         {
             Show();
-            Background = new SolidColorBrush(Colors.Black);
+            BasicLayout.Children.Clear();
+            BasicLayout.Background = new SolidColorBrush(Colors.Black);
             Topmost = true;
         }
 

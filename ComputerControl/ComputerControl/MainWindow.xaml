@@ -8,7 +8,7 @@
         ResizeMode="NoResize" 
         WindowState="Maximized"
         Title="MainWindow" Height="250" Width="600">
-    <Grid Background="#BCADA8">
+    <Grid x:Name="BasicLayout" Background="#BCADA8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*"/>
             <ColumnDefinition Width="180"/>
