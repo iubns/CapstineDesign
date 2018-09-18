@@ -28,11 +28,8 @@
         <TextBox x:Name="inputID" Grid.Row="3" Grid.Column="2" Margin="0,4,50,5"/>
         <Label Content="ID :" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="3" Width="29" Margin="0,4,5,0"/>
         <Label Content="Psswerd :" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="4"  Width="61" Margin="0,0,5,5"/>
-        <Button Grid.Column="2" Grid.Row="5" Content="login" Click="login" Margin="50,5,50,10"/>
         <PasswordBox x:Name="inputPW" Grid.Row="4" Grid.Column="2" Margin="0,0,50,16"/>
-
-
+        <Button Grid.Column="2" Grid.Row="5" Content="login" Click="login" Margin="50,5,50,10"/>
         <Image  Source="img/logo.png" Margin="40,0,20,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1"/>
-
     </Grid>
 </Window>
