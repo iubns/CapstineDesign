@@ -23,11 +23,13 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
-            this.KeyDown += MainWindow_KeyDown;
-            this.Closing += MainWindow_Closing;
-            new Thread(Load).Start();
+            KeyDown += MainWindow_KeyDown;
+            Closing += MainWindow_Closing;
+            TurnOnScreen();
+            server = new SocketObject();
+            Load();//나중에 로그인으로 내려가야 함
         }
-
+        
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
@@ -44,10 +46,11 @@ namespace ComputerControl
             }
         }
        
-        SocketObject server = new SocketObject();
+        SocketObject server = null;
         private void Load()
         {
             server.Send("student");
+            new Thread(seachingGame).Start();
             while (true)
             {
                 string temp = server.Receive();
@@ -81,6 +84,7 @@ namespace ComputerControl
                         Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                         {
                             TurnOnScreen();
+                            userName = "Error";
                         }));
                         break;
 
@@ -88,17 +92,17 @@ namespace ComputerControl
             }
         }
 
-        string[] programList = { /*"MapleStory,"*/ "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
+        string[] programList = { "MapleStory,", "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
         private void seachingGame()
         {
             while (true)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(1000 * 60 * 5);
                 foreach (string gameName in programList)
                 {
                     if (1 <= Process.GetProcessesByName(gameName).Length)
                     {
-                        if (userName == "error")
+                        if (userName == "Error")
                         {
                             server.Send("게임 감지\n");
                         }
@@ -117,9 +121,9 @@ namespace ComputerControl
         {
             WebConnection web = new WebConnection();
             userName = web.GetUserName(inputID.Text,inputPW.Password);
-            if(userName != "error")
+            if(userName != "Error")
             {
-               new Thread(seachingGame).Start();
+               new Thread(Load).Start();
                TurnOnScreen();
             }
         }

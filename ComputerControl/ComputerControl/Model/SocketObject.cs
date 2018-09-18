@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CapstoneDesign
@@ -13,10 +14,21 @@ namespace CapstoneDesign
         Socket client;
         public SocketObject()
         {
-            this.client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPAddress ipAddress = IPAddress.Parse("121.65.76.85");
             IPEndPoint ipep = new IPEndPoint(ipAddress, 9001);
-            client.Connect(ipep);
+            while (!client.Connected)
+            {
+                Thread.Sleep(1000);
+                try
+                {
+                    client.Connect(ipep);
+                }
+                catch
+                {
+
+                }
+            }
         }
         
         public string Receive()
