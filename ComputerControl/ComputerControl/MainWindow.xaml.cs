@@ -26,17 +26,16 @@ namespace ComputerControl
 
         private void resistAutoStart()
         {
-            string temp = Process.GetCurrentProcess().MainModule.FileName;
             try
             {
                 RegistryKey reg = Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion").CreateSubKey("Run");
-                reg.SetValue("CompterControl", temp);
-                Debug.WriteLine("자동실행 등록 성공");
+                reg.SetValue("CompterControl", Process.GetCurrentProcess().MainModule.FileName);
+                MessageBox.Show("자동 실행 등록 성공");
                 return;
             }
             catch
             {
-                Debug.WriteLine("자동실행 등록 실패");
+
             }
         }
 
@@ -84,7 +83,7 @@ namespace ComputerControl
             }
         }
 
-        string[] programList = { /*"MapleStory,"*/ "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
+        string[] programList = { /*"MapleStory,"*/ "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack, Overwatch" };
         private void seachingGame()
         {
             while (true)
