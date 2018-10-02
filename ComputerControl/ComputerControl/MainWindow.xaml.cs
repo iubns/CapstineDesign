@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -28,6 +29,10 @@ namespace ComputerControl
             KeyDown += MainWindow_KeyDown;
             Closing += MainWindow_Closing;
             server = new SocketObject();
+            if(! new WebConnection().GetLogin())
+            {
+                TurnOnScreen();
+            }
         }
         
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -185,6 +190,5 @@ namespace ComputerControl
                 }
             }
         }
-
     }
 }

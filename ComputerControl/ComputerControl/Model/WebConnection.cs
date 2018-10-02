@@ -10,13 +10,14 @@ namespace ComputerControl.Model
 {
     class WebConnection
     {
-        string browserUrl = "http://tis.tw.ac.kr/sys.Login.servj";
-        string reURl = "http://tis.tw.ac.kr/sys.Menu.doj";
         const string header_UA = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";
         const string header_ConType = "application/x-www-form-urlencoded";
 
         public string GetUserName(string id, string pw)
         {
+            string browserUrl = "http://tis.tw.ac.kr/sys.Login.servj";
+            string reURl = "http://tis.tw.ac.kr/sys.Menu.doj";
+
             HttpWebRequest Hwr = (HttpWebRequest)WebRequest.Create(browserUrl);
             Hwr.Method = "POST";
             Hwr.UserAgent = header_UA;
@@ -60,6 +61,33 @@ namespace ComputerControl.Model
                 result = "Error";
             }
             return result;
+        }
+
+        public bool GetLogin()
+        {
+            while (true)
+            {
+                string browserUrl = "http://iubns.com/Capstone";
+
+                HttpWebRequest Hwr = (HttpWebRequest)WebRequest.Create(browserUrl);
+                Hwr.Method = "POST";
+                Hwr.UserAgent = header_UA;
+                Hwr.ContentType = header_ConType;
+                Hwr.SendChunked = false;
+                Hwr.CookieContainer = new CookieContainer();
+
+                Hwr.Timeout = 5000;
+                try
+                {
+                    string result = (new StreamReader(((HttpWebResponse)Hwr.GetResponse()).GetResponseStream()).ReadToEnd());
+                    Hwr.GetResponse().Close();
+                    return bool.Parse(result);
+                }
+                catch
+                {
+
+                }
+            }
         }
     }
 }
