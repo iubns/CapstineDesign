@@ -63,6 +63,29 @@ namespace ComputerControl.Model
             return result;
         }
 
+        public void GetUpdate()
+        {
+            string browserUrl = "http://iubns.com/Capstone/ComputerControl.exe";
+            
+
+            HttpWebRequest Hwr = (HttpWebRequest)WebRequest.Create(browserUrl);
+            Hwr.Method = "POST";
+            Hwr.UserAgent = header_UA;
+            Hwr.ContentType = header_ConType;
+            Hwr.SendChunked = false;
+            Hwr.CookieContainer = new CookieContainer();
+
+            Hwr.Timeout = 5000;
+            try
+            {
+                string result = (new StreamReader(((HttpWebResponse)Hwr.GetResponse()).GetResponseStream()).ReadToEnd());
+                Hwr.GetResponse().Close();
+            }
+            catch
+            {
+
+            }
+        }
         public bool GetLogin()
         {
             while (true)

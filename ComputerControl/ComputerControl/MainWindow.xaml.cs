@@ -24,6 +24,8 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
+            new WebConnection().GetUpdate();
+            /*
             Topmost = true;
             resistAutoStart();
             KeyDown += MainWindow_KeyDown;
@@ -32,7 +34,9 @@ namespace ComputerControl
             if(! new WebConnection().GetLogin())
             {
                 TurnOnScreen();
+                new Thread(Load).Start();
             }
+            */
         }
         
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -65,7 +69,7 @@ namespace ComputerControl
                 e.Handled = true;
             }
         }
-       
+
         SocketObject server = null;
         private void Load()
         {
@@ -116,7 +120,6 @@ namespace ComputerControl
         {
             while (true)
             {
-                Thread.Sleep(1000 * 60 * 5);
                 foreach (string gameName in programList)
                 {
                     if (1 <= Process.GetProcessesByName(gameName).Length)
@@ -132,10 +135,11 @@ namespace ComputerControl
                         break;
                     }
                 }
+                Thread.Sleep(1000 * 60 * 3);
             }
         }
 
-        string userName = "";
+        string userName = "Error";
         private void login(object sender, RoutedEventArgs e)
         {
             WebConnection web = new WebConnection();
@@ -146,7 +150,7 @@ namespace ComputerControl
                TurnOnScreen();
             }
         }
-
+        
         private void TrunOffSomputer()
         {
             Process.Start("shutdown.exe", "-s -f");
