@@ -23,14 +23,19 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
+            Topmost = true;
+            resistAutoStart();
             KeyDown += MainWindow_KeyDown;
             Closing += MainWindow_Closing;
-            TurnOnScreen();
             server = new SocketObject();
-            Load();//나중에 로그인으로 내려가야 함
         }
         
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+        }
+
+        private void resistAutoStart()
         {
             try
             {
@@ -38,7 +43,11 @@ namespace ComputerControl
                 reg.SetValue("CompterControl", Process.GetCurrentProcess().MainModule.FileName);
                 MessageBox.Show("자동 실행 등록 성공");
                 return;
-            e.Cancel = true;
+            }
+            catch
+            {
+
+            }
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -93,7 +102,6 @@ namespace ComputerControl
                             userName = "Error";
                         }));
                         break;
-
                 }
             }
         }
@@ -133,8 +141,6 @@ namespace ComputerControl
                TurnOnScreen();
             }
         }
-
-        
 
         private void TrunOffSomputer()
         {
