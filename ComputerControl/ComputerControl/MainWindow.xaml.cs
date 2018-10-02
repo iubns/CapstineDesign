@@ -3,6 +3,7 @@ using ComputerControl.Model;
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -24,8 +25,6 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
-            new WebConnection().GetUpdate();
-            /*
             Topmost = true;
             resistAutoStart();
             KeyDown += MainWindow_KeyDown;
@@ -36,9 +35,27 @@ namespace ComputerControl
                 TurnOnScreen();
                 new Thread(Load).Start();
             }
-            */
+            RemoveTemp();
         }
-        
+
+        private void CheckVersion()
+        {
+            //버전 확인 코드
+            new WebConnection().GetUpdate();
+        }
+
+        private void RemoveTemp()
+        {
+            try {
+                FileInfo fileInfo = new FileInfo(Process.GetCurrentProcess().MainModule.FileName);
+                File.Delete(fileInfo.Directory + @"\temp.exe");
+            }
+            catch
+            {
+
+            }
+        }
+
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;

@@ -68,6 +68,9 @@ namespace ComputerControl.Model
         {
             string browserUrl = @"http://iubns.com/Capstone/ComputerControl.exe";
 
+            FileInfo fileInfo = new FileInfo(Process.GetCurrentProcess().MainModule.FileName);
+            File.Move(Process.GetCurrentProcess().MainModule.FileName, fileInfo.Directory+@"\temp.exe");
+
             WebClient webClient = new WebClient();
             webClient.DownloadFile(browserUrl, Process.GetCurrentProcess().MainModule.FileName);
         }
