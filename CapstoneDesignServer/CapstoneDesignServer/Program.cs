@@ -57,7 +57,17 @@ namespace CapstoneDesignServer
                 if (professor != null)
                 {
                     string temp = student.Receive();
-                    professor.Send(temp);
+                    if (temp == null)
+                    {
+                        sockets.Remove(student);
+                    }
+                    try {
+                        professor.Send(temp);
+                    }
+                    catch
+                    {
+                        professor = null;
+                    }
                 }
             }
         }
@@ -67,15 +77,12 @@ namespace CapstoneDesignServer
             while (true)
             {
                 string comment = professor.Receive();
+                if(comment == null)
+                {
+                    professor = null;
+                    return;
+                }
                 Console.WriteLine(comment);
-                if(comment == "TurnOffLogin")
-                {
-                    login = "TurnOffLogin";
-                }
-                else if(comment == "TurnOnLogin")
-                {
-                    login = "TurnOnLogin";
-                }
                 Console.WriteLine($"학생수 : {sockets.Count}");
                 for (int index = 0; index < sockets.Count; index++)
                 {
@@ -85,6 +92,7 @@ namespace CapstoneDesignServer
                     }
                     catch
                     {
+                        Console.WriteLine($"학생오류 : {index}");
                         sockets.RemoveAt(index);
                     }
                 }
