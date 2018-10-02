@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -23,14 +24,35 @@ namespace ComputerControl
         public MainWindow()
         {
             InitializeComponent();
-            this.KeyDown += MainWindow_KeyDown;
-            this.Closing += MainWindow_Closing;
-            new Thread(Load).Start();
+            Topmost = true;
+            resistAutoStart();
+            KeyDown += MainWindow_KeyDown;
+            Closing += MainWindow_Closing;
+            server = new SocketObject();
+            if(! new WebConnection().GetLogin())
+            {
+                TurnOnScreen();
+            }
         }
-
+        
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
+        }
+
+        private void resistAutoStart()
+        {
+            try
+            {
+                RegistryKey reg = Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion").CreateSubKey("Run");
+                reg.SetValue("CompterControl", Process.GetCurrentProcess().MainModule.FileName);
+                MessageBox.Show("자동 실행 등록 성공");
+                return;
+            }
+            catch
+            {
+
+            }
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -44,10 +66,11 @@ namespace ComputerControl
             }
         }
        
-        SocketObject server = new SocketObject();
+        SocketObject server = null;
         private void Load()
         {
             server.Send("student");
+            new Thread(seachingGame).Start();
             while (true)
             {
                 string temp = server.Receive();
@@ -81,24 +104,24 @@ namespace ComputerControl
                         Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                         {
                             TurnOnScreen();
+                            userName = "Error";
                         }));
                         break;
-
                 }
             }
         }
 
-        string[] programList = { /*"MapleStory,"*/ "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
+        string[] programList = { "MapleStory,", "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
         private void seachingGame()
         {
             while (true)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(1000 * 60 * 5);
                 foreach (string gameName in programList)
                 {
                     if (1 <= Process.GetProcessesByName(gameName).Length)
                     {
-                        if (userName == "error")
+                        if (userName == "Error")
                         {
                             server.Send("게임 감지\n");
                         }
@@ -117,14 +140,12 @@ namespace ComputerControl
         {
             WebConnection web = new WebConnection();
             userName = web.GetUserName(inputID.Text,inputPW.Password);
-            if(userName != "error")
+            if(userName != "Error")
             {
-               new Thread(seachingGame).Start();
+               new Thread(Load).Start();
                TurnOnScreen();
             }
         }
-
-        
 
         private void TrunOffSomputer()
         {
@@ -169,6 +190,5 @@ namespace ComputerControl
                 }
             }
         }
-
     }
 }
