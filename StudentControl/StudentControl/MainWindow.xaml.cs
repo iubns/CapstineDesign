@@ -35,7 +35,9 @@ namespace StudentControl
             Thread thread = new Thread(Recive);
             thread.Start();
         }
-
+        public void SetLogin(object o, EventArgs e) {
+            
+        }
         private void makeButton(Button button, string url)
         {
             button.Background = new ImageBrush() { ImageSource = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/" + url) };
@@ -71,6 +73,11 @@ namespace StudentControl
         public void ScreenOn(object o, EventArgs e)
         {
             socket.Send("TurnOnScreen");
+        }
+
+        private void Label_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
