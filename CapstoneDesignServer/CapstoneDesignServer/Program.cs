@@ -9,9 +9,8 @@ namespace CapstoneDesignServer
 {
     public class Program
     {
-        static List<SocketObject> sockets = new List<SocketObject>();
+        static List<SocketObject> students = new List<SocketObject>();
         public static SocketObject professor = null;
-        static string login = "TurnOnLogin";
         static void Main(string[] args)
         {
             Socket server = null;
@@ -33,14 +32,14 @@ namespace CapstoneDesignServer
                     {
                         professor = client;
                         Console.WriteLine("교수님 접속!");
-                        new Thread(Recive).Start();
+                        Task.Run(() => Recive());
                     }
                     else
                     {
-                        sockets.Add(client);
+                        students.Add(client);
                         Console.WriteLine("학생 접속!");
-                        client.Send(login);
-                        new Thread(StudentReceive).Start();
+                        client.Send("TurnOnLogin");
+                        Task.Run(() => StudentReceive(client));
                     }
                 }
             }catch(Exception e)
@@ -49,9 +48,8 @@ namespace CapstoneDesignServer
             }
         }
 
-        static void StudentReceive()
+        static void StudentReceive(SocketObject student)
         {
-            SocketObject student = sockets[sockets.Count-1];
             while (true)
             {
                 if (professor != null)
@@ -59,7 +57,7 @@ namespace CapstoneDesignServer
                     string temp = student.Receive();
                     if (temp == null)
                     {
-                        sockets.Remove(student);
+                        students.Remove(student);
                     }
                     try {
                         professor.Send(temp);
@@ -74,26 +72,33 @@ namespace CapstoneDesignServer
 
         static void Recive()
         {
-            while (true)
+            while (professor != null)
             {
-                string comment = professor.Receive();
-                if(comment == null)
+                string comment = "";
+                try
                 {
+                    comment = professor.Receive();
+                    if(comment == null)
+                    {
+                        professor = null;
+                    }else if(comment == "")
+                    {
+                        professor = null;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
                     professor = null;
-                    return;
                 }
                 Console.WriteLine(comment);
-                Console.WriteLine($"학생수 : {sockets.Count}");
-                for (int index = 0; index < sockets.Count; index++)
+                Console.WriteLine($"학생수 : {students.Count}");
+                for(int index=0; index<students.Count; index++)
                 {
-                    try
+                    if (!students[index].Send(comment))
                     {
-                        sockets[index].Send(comment);
-                    }
-                    catch
-                    {
-                        Console.WriteLine($"학생오류 : {index}");
-                        sockets.RemoveAt(index);
+                        Console.WriteLine($"학생오류");
+                        students.RemoveAt(index);
                     }
                 }
             }
