@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace ComputerControl.Model
 {
-    class WebConnection
+    static class WebConnection
     {
         const string header_UA = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";
         const string header_ConType = "application/x-www-form-urlencoded";
 
-        public string GetUserName(string id, string pw)
+        public static string GetUserName(string id, string pw)
         {
             string browserUrl = "http://tis.tw.ac.kr/sys.Login.servj";
             string reURl = "http://tis.tw.ac.kr/sys.Menu.doj";
@@ -64,7 +64,7 @@ namespace ComputerControl.Model
             return result;
         }
 
-        public void GetUpdate()
+        public static void GetUpdate()
         {
             string browserUrl = @"http://iubns.com/Capstone/ComputerControl.exe";
 
@@ -75,7 +75,7 @@ namespace ComputerControl.Model
             webClient.DownloadFile(browserUrl, Process.GetCurrentProcess().MainModule.FileName);
         }
 
-        public bool GetLogin()
+        public static bool GetLogin()
         {
             while (true)
             {
@@ -94,6 +94,33 @@ namespace ComputerControl.Model
                     string result = (new StreamReader(((HttpWebResponse)Hwr.GetResponse()).GetResponseStream()).ReadToEnd());
                     Hwr.GetResponse().Close();
                     return bool.Parse(result);
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+        public static string GetVersion()
+        {
+            while (true)
+            {
+                string browserUrl = "http://iubns.com/Capstone/version";
+
+                HttpWebRequest Hwr = (HttpWebRequest)WebRequest.Create(browserUrl);
+                Hwr.Method = "POST";
+                Hwr.UserAgent = header_UA;
+                Hwr.ContentType = header_ConType;
+                Hwr.SendChunked = false;
+                Hwr.CookieContainer = new CookieContainer();
+
+                Hwr.Timeout = 5000;
+                try
+                {
+                    string result = (new StreamReader(((HttpWebResponse)Hwr.GetResponse()).GetResponseStream()).ReadToEnd());
+                    Hwr.GetResponse().Close();
+                    return result;
                 }
                 catch
                 {

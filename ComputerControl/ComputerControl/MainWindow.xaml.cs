@@ -34,7 +34,7 @@ namespace ComputerControl
             Closing += MainWindow_Closing;
             
             server = new SocketObject();
-            if(! new WebConnection().GetLogin())
+            if(! WebConnection.GetLogin())
             {
                 TurnOnScreen();
                 new Thread(Load).Start();
@@ -44,10 +44,9 @@ namespace ComputerControl
 
         private void CheckVersion()
         {
-            //버전 확인 코드
-            if (false)
+            if (WebConnection.GetVersion() != "1.0.0")
             {
-                new WebConnection().GetUpdate();
+                WebConnection.GetUpdate();
             }
         }
 
@@ -166,8 +165,7 @@ namespace ComputerControl
         string userName = "Error";
         private void login(object sender, RoutedEventArgs e)
         {
-            WebConnection web = new WebConnection();
-            userName = web.GetUserName(inputID.Text,inputPW.Password);
+            userName = WebConnection.GetUserName(inputID.Text,inputPW.Password);
             if(userName != "Error")
             {
                new Thread(Load).Start();
