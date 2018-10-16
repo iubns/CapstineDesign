@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,7 +36,7 @@ namespace ComputerControl
             if(! WebConnection.GetLogin())
             {
                 TurnOnScreen();
-                new Thread(Load).Start();
+                Task.Run(() => Load());
             }
             CheckVersion();
         }
@@ -97,7 +96,7 @@ namespace ComputerControl
         private void Load()
         {
             server.Send("student");
-            new Thread(seachingGame).Start();
+            Task.Run(() => seachingGame());
             while (true)
             {
                 string temp = server.Receive();
@@ -139,7 +138,7 @@ namespace ComputerControl
         }
 
         string[] programList = { "MapleStory,", "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
-        private void seachingGame()
+        private async void seachingGame()
         {
             while (true)
             {
@@ -158,7 +157,7 @@ namespace ComputerControl
                         break;
                     }
                 }
-                Thread.Sleep(1000 * 60 * 3);
+                await Task.Delay(1000 );
             }
         }
 
@@ -168,8 +167,8 @@ namespace ComputerControl
             userName = WebConnection.GetUserName(inputID.Text,inputPW.Password);
             if(userName != "Error")
             {
-               new Thread(Load).Start();
-               TurnOnScreen();
+                Task.Run(() => Load());
+                TurnOnScreen();
             }
         }
         
