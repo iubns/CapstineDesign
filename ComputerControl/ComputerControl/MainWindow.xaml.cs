@@ -138,7 +138,7 @@ namespace ComputerControl
             }
         }
         
-        private void seachingGame()
+        private async void seachingGame()
         {
             while (true)
             {
