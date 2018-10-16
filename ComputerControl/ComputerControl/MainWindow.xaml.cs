@@ -2,6 +2,7 @@
 using ComputerControl.Model;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -136,23 +137,22 @@ namespace ComputerControl
                 }
             }
         }
-
-        string[] programList = { "MapleStory,", "KakaoTalk", "LeagueClient", "chrome", "Battle.net", "KartRider", "Hearthstone", "fifa4zf", "DNF", "SC2_x64", "suddenattack" };
-        private async void seachingGame()
+        
+        private void seachingGame()
         {
             while (true)
             {
-                foreach (string gameName in programList)
+                foreach (Game game in Game.GetGames())
                 {
-                    if (1 <= Process.GetProcessesByName(gameName).Length)
+                    if (1 <= Process.GetProcessesByName(game.gameId).Length)
                     {
                         if (userName == "Error")
                         {
-                            server.Send("게임 감지\n");
+                            server.Send($"게임 감지 :{game.gameNameKr} \n");
                         }
                         else
                         {
-                            server.Send($"{userName} 게임 감지\n");
+                            server.Send($"{userName} 게임 감지 : {game.gameNameKr} \n");
                         }
                         break;
                     }
@@ -193,11 +193,11 @@ namespace ComputerControl
 
         private void KillGame()
         {
-            foreach (string program in programList)
+            foreach (Game game in Game.GetGames())
             {
                 for (int i = 0; i < 20; i++)
                 {
-                    var info = Process.GetProcessesByName(program).FirstOrDefault();
+                    var info = Process.GetProcessesByName(game.gameId).FirstOrDefault();
 
                     if (info != null)
                     {
