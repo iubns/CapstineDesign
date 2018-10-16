@@ -1,5 +1,8 @@
-﻿using StudentControl.Model;
+﻿using Microsoft.Win32;
+using StudentControl.Model;
 using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -20,6 +23,7 @@ namespace StudentControl
         public MainWindow()
         {
             InitializeComponent();
+            resistAutoStart();
             IPAddress ipAddress = IPAddress.Parse("121.65.76.85");
             IPEndPoint ipep = new IPEndPoint(ipAddress, 9001);
             Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -33,22 +37,43 @@ namespace StudentControl
             makeButton(ScreenOnButton, "SCREEN_ON.png");
             makeButton(PowerOffButton, "POWER_OFF.png");
 
-            LoginButton.Content = (new WebCommunication().GetLogin())? "Login OFF" : "Login ON";
+            LoginButton.Content = (WebCommunication.GetLogin())? "Login OFF" : "Login ON";
             Thread thread = new Thread(Recive);
             thread.Start();
+
+            if (WebCommunication.GetVersion() != "1.0.0")
+            {
+                WebCommunication.GetUpdate();
+            }
+
+            Closed += new EventHandler((o, e) => { Window_Closed(); });
+        }
+        
+        private void resistAutoStart()
+        {
+            try
+            {
+                RegistryKey reg = Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion").CreateSubKey("Run");
+                reg.SetValue("CompterControl", Process.GetCurrentProcess().MainModule.FileName);
+                MessageBox.Show("자동 실행 등록 성공");
+                return;
+            }
+            catch
+            {
+
+            }
         }
 
         public void SetLogin(object o, EventArgs e) {
             Button setLoginButton = (Button)o;
-            WebCommunication web = new WebCommunication();
-            if (web.GetLogin())
+            if ((string)setLoginButton.Content == "Login OFF")
             {
-                web.SetLogin(false);
+                WebCommunication.SetLogin(false);
                 setLoginButton.Content = "Login ON";
             }
             else
             {
-                web.SetLogin(true);
+                WebCommunication.SetLogin(true);
                 setLoginButton.Content = "Login OFF";
             }
         }
@@ -77,22 +102,32 @@ namespace StudentControl
         {
             socket.Send("TurnOffGame");
         }
+
         public void ScreenOff(object o, EventArgs e)
         {
             socket.Send("TurnOffScreen");
         }
+
         public void PowerOff(object o, EventArgs e)
         {
             socket.Send("TurnOffComputer");
         }
+
         public void ScreenOn(object o, EventArgs e)
         {
             socket.Send("TurnOnScreen");
         }
-
-        private void Label_TextChanged(object sender, TextChangedEventArgs e)
+        
+        private void Window_Closed()
         {
+            var info = Process.GetCurrentProcess();
 
+            if (info != null)
+            {
+                Console.WriteLine(info.MainModule.FileVersionInfo.ProductName);
+                Console.WriteLine(info.MainModule.FileVersionInfo.FileDescription);
+                info.Kill();
+            }
         }
     }
 }
