@@ -32,11 +32,13 @@ namespace StudentControl
             makeButton(ScreenOffButton, "SCREEN_OFF.png");
             makeButton(ScreenOnButton, "SCREEN_ON.png");
             makeButton(PowerOffButton, "POWER_OFF.png");
-
+            
             LoginButton.Content = (new WebCommunication().GetLogin())? "Login OFF" : "Login ON";
             Thread thread = new Thread(Recive);
             thread.Start();
-        }
+        }                
+                    
+
 
         public void SetLogin(object o, EventArgs e) {
             Button setLoginButton = (Button)o;
@@ -94,5 +96,24 @@ namespace StudentControl
         {
 
         }
+
+        private void GameOffButton_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
+
+        private void GameOffButton_MouseEnter_1(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
+
+        private void GameOffButton_IsMouseDirectlyOverChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+    }
+
+    internal class MouseEnter
+    {
     }
 }
