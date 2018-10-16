@@ -144,20 +144,23 @@ namespace ComputerControl
             {
                 foreach (Game game in Game.GetGames())
                 {
-                    if (1 <= Process.GetProcessesByName(game.gameId).Length)
+                    foreach (string processName in game.gameId)
                     {
-                        if (userName == "Error")
+                        if (1 <= Process.GetProcessesByName(processName).Length)
                         {
-                            server.Send($"게임 감지 :{game.gameNameKr} \n");
+                            if (userName == "Error")
+                            {
+                                server.Send($"게임 감지 :{game.gameNameKr} \n");
+                            }
+                            else
+                            {
+                                server.Send($"{userName} 게임 감지 : {game.gameNameKr} \n");
+                            }
+                            break;
                         }
-                        else
-                        {
-                            server.Send($"{userName} 게임 감지 : {game.gameNameKr} \n");
-                        }
-                        break;
                     }
                 }
-                await Task.Delay(1000 );
+                await Task.Delay(1000 * 60 * 5);
             }
         }
 
@@ -197,19 +200,22 @@ namespace ComputerControl
             {
                 for (int i = 0; i < 20; i++)
                 {
-                    var info = Process.GetProcessesByName(game.gameId).FirstOrDefault();
-
-                    if (info != null)
+                    foreach (string processName in game.gameId)
                     {
-                        try
-                        {
-                            info.Kill();
-                            info.Close();
-                            info.Dispose();
-                        }
-                        catch
-                        {
+                        var info = Process.GetProcessesByName(processName).FirstOrDefault();
 
+                        if (info != null)
+                        {
+                            try
+                            {
+                                info.Kill();
+                                info.Close();
+                                info.Dispose();
+                            }
+                            catch
+                            {
+
+                            }
                         }
                     }
                 }

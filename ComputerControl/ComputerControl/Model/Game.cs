@@ -11,7 +11,7 @@ namespace ComputerControl
         private static List<Game> games;
 
         public string gameNameKr;
-        public string gameId;
+        public string[] gameId;
 
         public static List<Game> GetGames()
         {
@@ -21,107 +21,117 @@ namespace ComputerControl
                 games.Add(new Game()
                 {
                     gameNameKr = "메이플스토리",
-                    gameId = "MapleStory"
+                    gameId = new string[]{ "MapleStory" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "리그오브레전드",
-                    gameId = "LeagueClient"
+                    gameId = new string[] { "LeagueClient", "League of Legends" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "카카오톡",
-                    gameId = "KakaoTalk"
+                    gameId = new string[] { "KakaoTalk" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "겟엠프드",
-                    gameId = "amped"
+                    gameId = new string[] { "amped" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "블리자드",
-                    gameId = "Battle.net"
+                    gameId = new string[] { "Battle.net" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "디아블로3",
-                    gameId = "Diablo III64"
+                    gameId = new string[] { "Diablo III64" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "던전앤파이터",
-                    gameId = "DNF"
+                    gameId = new string[] { "DNF" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "사이퍼즈",
-                    gameId = "Cyphers"
+                    gameId = new string[] { "Cyphers" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "스타크래프트",
-                    gameId = "StarCraft"
+                    gameId = new string[] { "StarCraft" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "스타크래프트2",
-                    gameId = "SC2_x64"
+                    gameId = new string[] { "SC2" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "엘소드",
-                    gameId = "x2"
+                    gameId = new string[] { "x2" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "크레이지아케이드",
-                    gameId = "CA"
+                    gameId = new string[] { "CA" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "클로저스",
-                    gameId = "CW"
+                    gameId = new string[] { "CW" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "버블파이터",
-                    gameId = "BubbleFighter"
+                    gameId = new string[] { "BubbleFighter" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "서든어택",
-                    gameId = "suddenattack"
+                    gameId = new string[] { "suddenattack" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "오버워치",
-                    gameId = "Overwatch"
+                    gameId = new string[] { "Overwatch" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "카운터스트라이크",
-                    gameId = "cstrike-online"
+                    gameId = new string[] { "cstrike-online" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "카트라이더",
-                    gameId = "KartRider"
+                    gameId = new string[] { "KartRider" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "하스스톤",
-                    gameId = "Hearthstone"
+                    gameId = new string[] { "Hearthstone" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "테일즈런너",
-                    gameId = "trgame"
+                    gameId = new string[] { "trgame" }
                 });
                 games.Add(new Game()
                 {
                     gameNameKr = "피파온라인4 ",
-                    gameId = "fifa4zf"
+                    gameId = new string[] { "fifa4zf" }
+                });
+                games.Add(new Game()
+                {
+                    gameNameKr = "넥슨",
+                    gameId = new string[]{ "Nexon", "NexonPlug"}
+                });
+                games.Add(new Game()
+                {
+                    gameNameKr = "스팀",
+                    gameId = new string[]{ "steamwebhelper", "SteamService", "Steam" }
                 });
             }
             return games;
