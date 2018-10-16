@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentControl.Model;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -32,12 +33,26 @@ namespace StudentControl
             makeButton(ScreenOnButton, "SCREEN_ON.png");
             makeButton(PowerOffButton, "POWER_OFF.png");
 
+            LoginButton.Content = (new WebCommunication().GetLogin())? "Login OFF" : "Login ON";
             Thread thread = new Thread(Recive);
             thread.Start();
         }
+
         public void SetLogin(object o, EventArgs e) {
-            
+            Button setLoginButton = (Button)o;
+            WebCommunication web = new WebCommunication();
+            if (web.GetLogin())
+            {
+                web.SetLogin(false);
+                setLoginButton.Content = "Login ON";
+            }
+            else
+            {
+                web.SetLogin(true);
+                setLoginButton.Content = "Login OFF";
+            }
         }
+
         private void makeButton(Button button, string url)
         {
             button.Background = new ImageBrush() { ImageSource = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/" + url) };

@@ -41,6 +41,6 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Button Content="Login off" Click="SetLogin" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65" Grid.Column="4" Margin="105,0,0,0" Grid.Row="1" Height="30"/>
+        <Button x:Name="LoginButton" Click="SetLogin" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65" Grid.Column="4" Margin="105,0,0,0" Grid.Row="1" Height="30"/>
     </Grid>
 </Window>

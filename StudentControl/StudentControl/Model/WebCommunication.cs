@@ -40,31 +40,20 @@ namespace StudentControl.Model
             }
         }
         
-        public bool SetLogin(bool value)
+        public void SetLogin(bool value)
         {
-            while (true)
-            {
-                string browserUrl = "http://iubns.com/Capstone?value=";
+            string browserUrl = "http://iubns.com/Capstone?value=";
 
-                HttpWebRequest Hwr = (HttpWebRequest)WebRequest.Create(browserUrl + value.ToString());
-                Hwr.Method = "POST";
-                Hwr.UserAgent = header_UA;
-                Hwr.ContentType = header_ConType;
-                Hwr.SendChunked = false;
-                Hwr.CookieContainer = new CookieContainer();
+            HttpWebRequest Hwr = (HttpWebRequest)WebRequest.Create(browserUrl + value.ToString());
+            Hwr.Method = "POST";
+            Hwr.UserAgent = header_UA;
+            Hwr.ContentType = header_ConType;
+            Hwr.SendChunked = false;
+            Hwr.CookieContainer = new CookieContainer();
 
-                Hwr.Timeout = 5000;
-                try
-                {
-                    string result = (new StreamReader(((HttpWebResponse)Hwr.GetResponse()).GetResponseStream()).ReadToEnd());
-                    Hwr.GetResponse().Close();
-                    return bool.Parse(result);
-                }
-                catch
-                {
-
-                }
-            }
+            Hwr.Timeout = 5000;
+            string result = (new StreamReader(((HttpWebResponse)Hwr.GetResponse()).GetResponseStream()).ReadToEnd());
+            Hwr.GetResponse().Close();
         }
     }
 }
