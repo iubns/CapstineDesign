@@ -24,24 +24,31 @@ namespace ComputerControl
       
         public MainWindow()
         {
+            RemoveTemp();
             InitializeComponent();
-            Topmost = true;
+
             resistAutoStart();
+            
+            Topmost = true;
             KeyDown += MainWindow_KeyDown;
             Closing += MainWindow_Closing;
+            
             server = new SocketObject();
             if(! new WebConnection().GetLogin())
             {
                 TurnOnScreen();
                 new Thread(Load).Start();
             }
-            RemoveTemp();
+            CheckVersion();
         }
 
         private void CheckVersion()
         {
             //버전 확인 코드
-            new WebConnection().GetUpdate();
+            if (false)
+            {
+                new WebConnection().GetUpdate();
+            }
         }
 
         private void RemoveTemp()

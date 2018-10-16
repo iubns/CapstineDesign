@@ -42,17 +42,17 @@ namespace CapstoneDesignServer
             return dataString;
         }
 
-        public void Send(string content)
+        public bool Send(string content)
         {
             try
             {
                 client.Send(Encoding.UTF8.GetBytes(content));
+                return true;
             }
             catch
             {
-
+                return false;
             }
-            return;
         }
 
         public void Close()
