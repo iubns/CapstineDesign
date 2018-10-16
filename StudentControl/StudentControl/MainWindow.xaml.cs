@@ -129,5 +129,24 @@ namespace StudentControl
                 info.Kill();
             }
         }
+
+        private void GameOffButton_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
+
+        private void GameOffButton_MouseEnter_1(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
+
+        private void GameOffButton_IsMouseDirectlyOverChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+    }
+
+    internal class MouseEnter
+    {
     }
 }
