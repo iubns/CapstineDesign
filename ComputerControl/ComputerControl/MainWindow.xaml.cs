@@ -2,14 +2,12 @@
 using ComputerControl.Model;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -21,7 +19,7 @@ namespace ComputerControl
     /// </summary>
     public partial class MainWindow : Window
     {
-      
+
         public MainWindow()
         {
             RemoveTemp();
@@ -93,9 +91,16 @@ namespace ComputerControl
             }
         }
 
+        private string GetIpAdress()
+        {
+            var ipArray = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
+            return ipArray[1].ToString();
+        }
+
         SocketObject server = null;
         private void Load()
         {
+            //server.Send(GetIpAdress()); 자신의 ip 보내기, 서버쪽 처리 필요
             server.Send("student");
             Task.Run(() => seachingGame());
             while (true)

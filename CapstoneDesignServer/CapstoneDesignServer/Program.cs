@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace CapstoneDesignServer
 {
     public class Program
     {
-        static List<SocketObject> students = new List<SocketObject>();
-        public static SocketObject professor = null;
+        public static List<ClassObject> classObjects = new List<ClassObject>();
         static void Main(string[] args)
         {
             Socket server = null;
@@ -28,15 +26,29 @@ namespace CapstoneDesignServer
                 while (true)
                 {
                     SocketObject client = new SocketObject(server.Accept());
+                    string clientClassName = client.Receive().Split('.')[2];
+                    client.className = clientClassName;
+                    ClassObject classObject = ClassObject.GetClassObjects(clientClassName);
+
+                    if (classObject == null)
+                    {
+                        classObject = new ClassObject()
+                        {
+                            className = clientClassName,
+                            students = new List<SocketObject>(),
+                        };
+                        classObjects.Add(classObject);
+                    }
+
                     if (client.Receive() == "pro")
                     {
-                        professor = client;
+                        classObject.professor = client;
                         Console.WriteLine("교수님 접속!");
-                        Task.Run(() => Recive());
+                        Task.Run(() => Recive(client));
                     }
-                    else
+                    else if(client.Receive() == "student")
                     {
-                        students.Add(client);
+                        classObject.students.Add(client);
                         Console.WriteLine("학생 접속!");
                         client.Send("TurnOnLogin");
                         Task.Run(() => StudentReceive(client));
@@ -52,53 +64,55 @@ namespace CapstoneDesignServer
         {
             while (true)
             {
-                if (professor != null)
+                ClassObject classObject = ClassObject.GetClassObjects(student.className);
+                if (classObject.professor != null)
                 {
                     string temp = student.Receive();
                     if (temp == null)
                     {
-                        students.Remove(student);
+                        classObject.students.Remove(student);
                     }
                     try {
-                        professor.Send(temp);
+                        classObject.professor.Send(temp);
                     }
                     catch
                     {
-                        professor = null;
+                        classObject.professor = null;
                     }
                 }
             }
         }
 
-        static void Recive()
+        static void Recive(SocketObject student)
         {
-            while (professor != null)
+            ClassObject classObject = ClassObject.GetClassObjects(student.className);
+            while (classObject.professor != null)
             {
                 string comment = "";
                 try
                 {
-                    comment = professor.Receive();
+                    comment = classObject.professor.Receive();
                     if(comment == null)
                     {
-                        professor = null;
+                        classObject.professor = null;
                     }else if(comment == "")
                     {
-                        professor = null;
+                        classObject.professor = null;
                     }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    professor = null;
+                    classObject.professor = null;
                 }
                 Console.WriteLine(comment);
-                Console.WriteLine($"학생수 : {students.Count}");
-                for(int index=0; index<students.Count; index++)
+                Console.WriteLine($"학생수 : {classObject.students.Count}");
+                for(int index=0; index< classObject.students.Count; index++)
                 {
-                    if (!students[index].Send(comment))
+                    if (!classObject.students[index].Send(comment))
                     {
                         Console.WriteLine($"학생오류");
-                        students.RemoveAt(index);
+                        classObject.students.RemoveAt(index);
                     }
                 }
             }
