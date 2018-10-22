@@ -42,7 +42,7 @@ namespace ComputerControl
 
         private void CheckVersion()
         {
-            if (WebConnection.GetVersion() != "1.0.0")
+            if (WebConnection.GetVersion() != "1.0.1")
             {
                 WebConnection.GetUpdate();
             }
