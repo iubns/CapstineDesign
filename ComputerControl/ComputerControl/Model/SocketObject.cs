@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace CapstoneDesign
 {
@@ -15,7 +11,7 @@ namespace CapstoneDesign
         public SocketObject()
         {
             client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPAddress ipAddress = IPAddress.Parse("121.65.76.85");
+            IPAddress ipAddress = IPAddress.Parse("172.17.128.18");// "121.65.76.85"
             IPEndPoint ipep = new IPEndPoint(ipAddress, 9001);
             while (!client.Connected)
             {

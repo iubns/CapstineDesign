@@ -100,7 +100,8 @@ namespace ComputerControl
         SocketObject server = null;
         private void Load()
         {
-            //server.Send(GetIpAdress()); 자신의 ip 보내기, 서버쪽 처리 필요
+            server.Send(GetIpAdress()); //자신의 ip 보내기, 서버쪽 처리 필요
+            Task.Delay(500);
             server.Send("student");
             Task.Run(() => seachingGame());
             while (true)
@@ -145,6 +146,7 @@ namespace ComputerControl
         
         private async void seachingGame()
         {
+            if(server.Receive() == "startGameSearching")
             while (true)
             {
                 foreach (Game game in Game.GetGames())
@@ -155,7 +157,7 @@ namespace ComputerControl
                         {
                             if (userName == "Error")
                             {
-                                server.Send($"게임 감지 :{game.gameNameKr} \n");
+                                server.Send($"게임 감지 : {game.gameNameKr} \n");
                             }
                             else
                             {

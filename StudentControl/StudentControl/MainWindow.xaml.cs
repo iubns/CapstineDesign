@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,18 +18,34 @@ namespace StudentControl
     /// </summary>
     public partial class MainWindow : Window
     {
+        string version = "1.0.0";
         SocketObject socket;
         public MainWindow()
         {
-            InitializeComponent();
-            resistAutoStart();
-            IPAddress ipAddress = IPAddress.Parse("121.65.76.85");
+            IPAddress ipAddress = IPAddress.Parse("172.17.128.18"); // 121.65.76.85
             IPEndPoint ipep = new IPEndPoint(ipAddress, 9001);
             Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            server.Connect(ipep);
+
+            while (!server.Connected)
+            {
+                Task.Delay(1000);
+                try
+                {
+                    server.Connect(ipep);
+                }
+                catch
+                {
+
+                }
+            }
 
             socket = new SocketObject(server);
-            socket.Send("pro");
+            socket.Send(GetIpAdress());
+            Task.Delay(500);
+            socket.Send("professor");
+
+            InitializeComponent();
+            resistAutoStart();
 
             makeButton(GameOffButton, "GAME_OFF.png");
             makeButton(ScreenOffButton, "SCREEN_OFF.png");
@@ -38,10 +53,9 @@ namespace StudentControl
             makeButton(PowerOffButton, "POWER_OFF.png");
 
             LoginButton.Content = (WebCommunication.GetLogin())? "Login OFF" : "Login ON";
-            Thread thread = new Thread(Recive);
-            thread.Start();
-
-            if (WebCommunication.GetVersion() != "1.0.0")
+            Task.Run(() => Recive());
+            
+            if (WebCommunication.GetVersion() != version)
             {
                 WebCommunication.GetUpdate();
             }
@@ -98,6 +112,12 @@ namespace StudentControl
             }
         }
 
+        private string GetIpAdress()
+        {
+            var ipArray = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
+            return ipArray[1].ToString();
+        }
+
         public void GameOff(object o, EventArgs e)
         {
             socket.Send("TurnOffGame");
@@ -129,24 +149,5 @@ namespace StudentControl
                 info.Kill();
             }
         }
-
-        private void GameOffButton_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-
-        }
-
-        private void GameOffButton_MouseEnter_1(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-
-        }
-
-        private void GameOffButton_IsMouseDirectlyOverChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-
-        }
-    }
-
-    internal class MouseEnter
-    {
     }
 }
