@@ -40,17 +40,19 @@ namespace CapstoneDesignServer
                         classObjects.Add(classObject);
                     }
 
-                    if (client.Receive() == "pro")
+                    string clientType = client.Receive();
+                    if (clientType == "professor")
                     {
                         classObject.professor = client;
                         Console.WriteLine("교수님 접속!");
                         Task.Run(() => Recive(client));
                     }
-                    else if(client.Receive() == "student")
+                    else if(clientType == "student")
                     {
                         classObject.students.Add(client);
                         Console.WriteLine("학생 접속!");
                         client.Send("TurnOnLogin");
+                        client.Send("startGameSearching");
                         Task.Run(() => StudentReceive(client));
                     }
                 }
