@@ -96,6 +96,9 @@
     <Resource Include="img\SCREEN_ON_CLICK.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="img\SelectChampion.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="img\GAME_OFF.png" />
     <Resource Include="img\logo.png" />
     <Resource Include="img\logo2.png" />
