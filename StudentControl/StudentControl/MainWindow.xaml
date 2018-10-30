@@ -33,7 +33,9 @@
         </ScrollViewer>
 
         <Label TextBlock.FontSize ="9" TextElement.Foreground="Black"
-               Content="2018년도 컴퓨터정보과 B반 5조 조장:금준호 팀원:박문수, 양민호, 류영돈 " Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"/>
+               Content="2018년도 컴퓨터정보과 B반 5조 팀장:금준호 팀원:박문수, 양민호, 류영돈 " Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"/>
+        <Label x:Name="ver" TextBlock.FontSize ="9" TextElement.Foreground="Black"
+               Content="Ver.1.0.1 " Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
         <Image Source="img/logo.png" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Label Grid.Column="2" Grid.Row="0" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
             <Label.RenderTransform>
