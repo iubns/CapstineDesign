@@ -44,13 +44,13 @@ namespace CapstoneDesignServer
                     if (clientType == "professor")
                     {
                         classObject.professor = client;
-                        Console.WriteLine("교수님 접속!");
+                        Console.WriteLine($"{classObject.className} : 교수님 접속!");
                         Task.Run(() => Recive(client));
                     }
                     else if(clientType == "student")
                     {
                         classObject.students.Add(client);
-                        Console.WriteLine("학생 접속!");
+                        Console.WriteLine($"{classObject.className} : 학생 접속!");
                         client.Send("TurnOnLogin");
                         client.Send("startGameSearching");
                         Task.Run(() => StudentReceive(client));
@@ -108,12 +108,12 @@ namespace CapstoneDesignServer
                     classObject.professor = null;
                 }
                 Console.WriteLine(comment);
-                Console.WriteLine($"학생수 : {classObject.students.Count}");
+                Console.WriteLine($"{classObject.className} , 학생수 : {classObject.students.Count}");
                 for(int index=0; index< classObject.students.Count; index++)
                 {
                     if (!classObject.students[index].Send(comment))
                     {
-                        Console.WriteLine($"학생오류");
+                        Console.WriteLine($"{classObject.className} 학생오류");
                         classObject.students.RemoveAt(index);
                     }
                 }
