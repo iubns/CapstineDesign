@@ -72,6 +72,7 @@ namespace CapstoneDesignServer
                     string temp = student.Receive();
                     if (temp == null)
                     {
+                        student.Close();
                         classObject.students.Remove(student);
                     }
                     try {
@@ -79,6 +80,7 @@ namespace CapstoneDesignServer
                     }
                     catch
                     {
+                        classObject.professor.Close();
                         classObject.professor = null;
                     }
                 }
@@ -96,15 +98,19 @@ namespace CapstoneDesignServer
                     comment = classObject.professor.Receive();
                     if(comment == null)
                     {
+                        classObject.professor.Close();
                         classObject.professor = null;
-                    }else if(comment == "")
+                    }
+                    else if(comment == "")
                     {
+                        classObject.professor.Close();
                         classObject.professor = null;
                     }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
+                    classObject.professor.Close();
                     classObject.professor = null;
                 }
                 Console.WriteLine(comment);

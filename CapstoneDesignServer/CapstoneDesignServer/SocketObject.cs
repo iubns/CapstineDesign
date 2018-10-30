@@ -14,7 +14,7 @@ namespace CapstoneDesignServer
         public string className { get; set; }
         public SocketObject(Socket socket)
         {
-            this.client = socket;
+            client = socket;
         }
         
         public string Receive()
