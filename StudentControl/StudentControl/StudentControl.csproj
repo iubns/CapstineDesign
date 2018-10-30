@@ -90,7 +90,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="img\POWER_OFF_CLICK.png" />
+    <Resource Include="img\SCREEN_OFF_CLICK.png" />
+    <Resource Include="img\SCREEN_ON_CLICK.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="img\GAME_OFF.png" />
     <Resource Include="img\logo.png" />
@@ -104,6 +108,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\GAME_OFF_CLICK.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
