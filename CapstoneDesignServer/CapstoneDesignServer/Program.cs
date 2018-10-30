@@ -26,7 +26,17 @@ namespace CapstoneDesignServer
                 while (true)
                 {
                     SocketObject client = new SocketObject(server.Accept());
-                    string clientClassName = client.Receive().Split('.')[2];
+                    string clientClassName = "";
+                    try
+                    {
+                        clientClassName = client.Receive().Split('.')[2];
+                    }
+                    catch
+                    {
+                        Console.WriteLine("구버전 접속");
+                        client.Close();
+                        continue;
+                    }
                     client.className = clientClassName;
                     ClassObject classObject = ClassObject.GetClassObjects(clientClassName);
 
