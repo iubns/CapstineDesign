@@ -22,7 +22,7 @@ namespace StudentControl
         SocketObject socket;
         public MainWindow()
         {
-            IPAddress ipAddress = IPAddress.Parse("172.17.128.18"); // 121.65.76.85
+            IPAddress ipAddress = IPAddress.Parse("121.65.76.85");
             IPEndPoint ipep = new IPEndPoint(ipAddress, 9001);
             Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -48,9 +48,9 @@ namespace StudentControl
             resistAutoStart();
 
             makeButton(GameOffButton, "GAME_OFF.png");
-            makeButton(ScreenOffButton, "SCREEN_OFF.png");
-            makeButton(ScreenOnButton, "SCREEN_ON.png");
-            makeButton(PowerOffButton, "POWER_OFF.png");
+            //makeButton(ScreenOffButton, "SCREEN_OFF.png");
+            //makeButton(ScreenOnButton, "SCREEN_ON.png");
+            //makeButton(PowerOffButton, "POWER_OFF.png");
 
             LoginButton.Content = (WebCommunication.GetLogin())? "Login OFF" : "Login ON";
             Task.Run(() => Recive());
@@ -92,13 +92,15 @@ namespace StudentControl
             }
         }
 
-        private void makeButton(Button button, string url)
+        private void makeButton(Image image, string url)
         {
-            button.Background = new ImageBrush() { ImageSource = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/" + url) };
-            button.BorderThickness = new Thickness(0.0);
-            button.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            image.Source = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/GAME_OFF.png");
+            image.MouseDown += (sender, e) => {
+                image.Source = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/SelectChampion.png");
+                buttonClick(url);
+            };
+            image.MouseUp += (sender, e) => { image.Source = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/GAME_OFF.png"); };
         }
-
 
         private void Recive()
         {
@@ -118,7 +120,17 @@ namespace StudentControl
             return ipArray[1].ToString();
         }
 
-        public void GameOff(object o, EventArgs e)
+        private void buttonClick(string buttonUrl)
+        {
+            switch (buttonUrl)
+            {
+                case "GAME_OFF.png":
+                    socket.Send("TurnOffGame");
+                    break;
+            }
+        }
+    
+        public void GameOff()
         {
             socket.Send("TurnOffGame");
         }

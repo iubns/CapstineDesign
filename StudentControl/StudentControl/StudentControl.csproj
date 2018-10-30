@@ -90,7 +90,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="img\SelectChampion.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="img\GAME_OFF.png" />
     <Resource Include="img\logo.png" />
