@@ -18,7 +18,7 @@ namespace StudentControl
     /// </summary>
     public partial class MainWindow : Window
     {
-        string version = "1.0.0";
+        string version = "1.0.1";
         SocketObject socket;
         public MainWindow()
         {
@@ -59,6 +59,7 @@ namespace StudentControl
             {
                 WebCommunication.GetUpdate();
             }
+            ver.Content = "Ver." + version;
 
             Closed += new EventHandler((o, e) => { Window_Closed(); });
         }
