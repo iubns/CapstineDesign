@@ -42,10 +42,12 @@ namespace ComputerControl
 
         private void CheckVersion()
         {
-            if (WebConnection.GetVersion() != "1.0.1")
+            string version = "1.0.1";
+            if (WebConnection.GetVersion() != version)
             {
                 WebConnection.GetUpdate();
             }
+            versionLabel.Content = $"V {version}";
         }
 
         private void RemoveTemp()
