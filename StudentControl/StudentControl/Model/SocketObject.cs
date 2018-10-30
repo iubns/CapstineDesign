@@ -8,7 +8,7 @@ namespace StudentControl
         Socket client;
         public SocketObject(Socket socket)
         {
-            this.client = socket;
+            client = socket;
         }
         
         public string Receive()

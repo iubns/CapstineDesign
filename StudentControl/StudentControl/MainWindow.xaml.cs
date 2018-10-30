@@ -2,7 +2,6 @@
 using StudentControl.Model;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -13,9 +12,6 @@ using System.Windows.Threading;
 
 namespace StudentControl
 {
-    /// <summary>
-    /// MainWindow.xaml에 대한 상호 작용 논리
-    /// </summary>
     public partial class MainWindow : Window
     {
         string version = "1.0.1";
@@ -137,12 +133,8 @@ namespace StudentControl
                 case "SCREEN_OFF":
                     socket.Send("TurnOffScreen");
                     break;
-
             }
         }
-    
-      
-
         
         private void Window_Closed()
         {
