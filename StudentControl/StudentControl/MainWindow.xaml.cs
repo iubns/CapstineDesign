@@ -47,10 +47,10 @@ namespace StudentControl
             InitializeComponent();
             resistAutoStart();
 
-            makeButton(GameOffButton, "GAME_OFF.png");
-            //makeButton(ScreenOffButton, "SCREEN_OFF.png");
-            //makeButton(ScreenOnButton, "SCREEN_ON.png");
-            //makeButton(PowerOffButton, "POWER_OFF.png");
+            makeButton(GameOffButton, "GAME_OFF");
+            makeButton(ScreenOffButton, "SCREEN_OFF");
+            makeButton(ScreenOnButton, "SCREEN_ON");
+            makeButton(PowerOffButton, "POWER_OFF");
 
             LoginButton.Content = (WebCommunication.GetLogin())? "Login OFF" : "Login ON";
             Task.Run(() => Recive());
@@ -94,12 +94,12 @@ namespace StudentControl
 
         private void makeButton(Image image, string url)
         {
-            image.Source = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/GAME_OFF.png");
+            image.Source = (ImageSource)new ImageSourceConverter().ConvertFromString($"pack://application:,,/img/{url}.png");
             image.MouseDown += (sender, e) => {
-                image.Source = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/SelectChampion.png");
+                image.Source = (ImageSource)new ImageSourceConverter().ConvertFromString($"pack://application:,,/img/{url}_CLICK.png");
                 buttonClick(url);
             };
-            image.MouseUp += (sender, e) => { image.Source = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,/img/GAME_OFF.png"); };
+            image.MouseUp += (sender, e) => { image.Source = (ImageSource)new ImageSourceConverter().ConvertFromString($"pack://application:,,/img/{url}.png"); };
         }
 
         private void Recive()
@@ -124,31 +124,24 @@ namespace StudentControl
         {
             switch (buttonUrl)
             {
-                case "GAME_OFF.png":
+                case "GAME_OFF":
                     socket.Send("TurnOffGame");
                     break;
+                case "POWER_OFF":
+                    socket.Send("TurnOffComputer");
+                    break;
+                case "SCREEN_ON":
+                    socket.Send("TurnOnScreen");
+                    break;
+                case "SCREEN_OFF":
+                    socket.Send("TurnOffScreen");
+                    break;
+
             }
         }
     
-        public void GameOff()
-        {
-            socket.Send("TurnOffGame");
-        }
+      
 
-        public void ScreenOff(object o, EventArgs e)
-        {
-            socket.Send("TurnOffScreen");
-        }
-
-        public void PowerOff(object o, EventArgs e)
-        {
-            socket.Send("TurnOffComputer");
-        }
-
-        public void ScreenOn(object o, EventArgs e)
-        {
-            socket.Send("TurnOnScreen");
-        }
         
         private void Window_Closed()
         {

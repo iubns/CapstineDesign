@@ -24,143 +24,16 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Image x:Name="GameOffButton" Grid.Column="1" Grid.Row="2" Width="130" Height="130" Margin="20,8,20,10"/>
+        <Image x:Name="ScreenOffButton" Grid.Column="2" Grid.Row="2" Width="130" Height="130" Margin="20,8,20,10"/>
+        <Image x:Name="ScreenOnButton" Grid.Column="3" Grid.Row="2" Width="130" Height="130"  Margin="20,8,20,10"/>
+        <Image x:Name="PowerOffButton" Grid.Column="4" Grid.Row="2" Width="130" Height="130" Margin="20,8,20,10"/>
 
-
-        <Button x:Name="ScreenOffButton" Grid.Column="2" Grid.Row="2" Width="130" Height="130" Click="ScreenOff" Margin="20,8,20,10">
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type ButtonBase}">
-                    <Border
-                x:Name="border"
-                Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                SnapsToDevicePixels="True">
-                        <ContentPresenter
-                    x:Name="contentPresenter"
-                    Margin="{TemplateBinding Padding}"
-                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                    Content="{TemplateBinding Content}"
-                    ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                    Focusable="False"
-                    RecognizesAccessKey="True"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="Button.IsDefaulted" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#FFC4E5F6" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#FF2C628B" />
-                        </Trigger>
-                        <Trigger Property="ToggleButton.IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#FFBCDDEE" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#FF245A83" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="#FFF4F4F4" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#FFADB2B5" />
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="#FF838383" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        
-        <Button x:Name="ScreenOnButton" Grid.Column="3" Grid.Row="2" Width="130" Height="130" Click="ScreenOn" Margin="20,8,20,10">
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type ButtonBase}">
-                    <Border
-                x:Name="border"
-                Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                SnapsToDevicePixels="True">
-                        <ContentPresenter
-                    x:Name="contentPresenter"
-                    Margin="{TemplateBinding Padding}"
-                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                    Content="{TemplateBinding Content}"
-                    ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                    Focusable="False"
-                    RecognizesAccessKey="True"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="Button.IsDefaulted" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#FFC4E5F6" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#FF2C628B" />
-                        </Trigger>
-                        <Trigger Property="ToggleButton.IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#FFBCDDEE" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#FF245A83" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="#FFF4F4F4" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#FFADB2B5" />
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="#FF838383" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template> 
-        </Button>
-        
-        <Button x:Name="PowerOffButton" Grid.Column="4" Grid.Row="2" Width="130" Height="130" Click="PowerOff" Margin="20,8,20,10">
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type ButtonBase}">
-                    <Border
-                x:Name="border"
-                Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                SnapsToDevicePixels="True">
-                        <ContentPresenter
-                    x:Name="contentPresenter"
-                    Margin="{TemplateBinding Padding}"
-                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                    Content="{TemplateBinding Content}"
-                    ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                    Focusable="False"
-                    RecognizesAccessKey="True"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="Button.IsDefaulted" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#FFC4E5F6" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#FF2C628B" />
-                        </Trigger>
-                        <Trigger Property="ToggleButton.IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#FFBCDDEE" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#FF245A83" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="#FFF4F4F4" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#FFADB2B5" />
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="#FF838383" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        
         <ScrollViewer Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2">
         <TextBlock x:Name="log" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Background="White" Margin="1,0,0,0"/>
         </ScrollViewer>
 
-        <Label TextBlock.FontSize ="7" TextElement.Foreground="Black"
-               Content="2018년도 컴퓨터정보과 B반 5조 " Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"/>
+        <Label TextBlock.FontSize ="9" TextElement.Foreground="Black"
+               Content="2018년도 컴퓨터정보과 B반 5조 조장:금준호 팀원:박문수, 양민호, 류영돈 " Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"/>
         <Image Source="img/logo.png" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Label Grid.Column="2" Grid.Row="0" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
             <Label.RenderTransform>
