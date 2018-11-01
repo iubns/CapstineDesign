@@ -2,6 +2,7 @@
 using StudentControl.Model;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace StudentControl
         SocketObject socket;
         public MainWindow()
         {
+            RemoveTemp();
             IPAddress ipAddress = IPAddress.Parse("121.65.76.85");
             IPEndPoint ipep = new IPEndPoint(ipAddress, 9001);
             Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -49,17 +51,40 @@ namespace StudentControl
             makeButton(PowerOffButton, "POWER_OFF");
 
             LoginButton.Content = (WebCommunication.GetLogin())? "Login OFF" : "Login ON";
+
             Task.Run(() => Recive());
             
             if (WebCommunication.GetVersion() != version)
             {
                 WebCommunication.GetUpdate();
             }
-            ver.Content = "Ver." + version;
 
             Closed += new EventHandler((o, e) => { Window_Closed(); });
+            CheckVersion();
         }
-        
+
+        private void CheckVersion()
+        {
+            if (WebCommunication.GetVersion() != version)
+            {
+                WebCommunication.GetUpdate();
+            }
+            ver.Content = $"V {version}";
+        }
+
+        private void RemoveTemp()
+        {
+            try
+            {
+                FileInfo fileInfo = new FileInfo(Process.GetCurrentProcess().MainModule.FileName);
+                File.Delete(fileInfo.Directory + @"\temp.exe");
+            }
+            catch
+            {
+
+            }
+        }
+
         private void resistAutoStart()
         {
             try
