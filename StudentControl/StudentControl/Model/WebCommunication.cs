@@ -14,24 +14,10 @@ namespace StudentControl.Model
             while (true)
             {
                 string browserUrl = "http://iubns.com/Capstone";
-
-                HttpWebRequest Hwr = (HttpWebRequest)WebRequest.Create(browserUrl);
-                Hwr.Method = "POST";
-                Hwr.UserAgent = header_UA;
-                Hwr.ContentType = header_ConType;
-                Hwr.SendChunked = false;
-                Hwr.CookieContainer = new CookieContainer();
-
-                Hwr.Timeout = 5000;
-                try
+                string result = GerResult(browserUrl);
+                if (result != string.Empty)
                 {
-                    string result = (new StreamReader(((HttpWebResponse)Hwr.GetResponse()).GetResponseStream()).ReadToEnd());
-                    Hwr.GetResponse().Close();
-                    return bool.Parse(result);
-                }
-                catch
-                {
-
+                    return bool.Parse(GerResult(browserUrl));
                 }
             }
         }
@@ -39,17 +25,11 @@ namespace StudentControl.Model
         public static void SetLogin(bool value)
         {
             string browserUrl = "http://iubns.com/Capstone?value=";
-
-            HttpWebRequest Hwr = (HttpWebRequest)WebRequest.Create(browserUrl + value.ToString());
-            Hwr.Method = "POST";
-            Hwr.UserAgent = header_UA;
-            Hwr.ContentType = header_ConType;
-            Hwr.SendChunked = false;
-            Hwr.CookieContainer = new CookieContainer();
-
-            Hwr.Timeout = 5000;
-            string result = (new StreamReader(((HttpWebResponse)Hwr.GetResponse()).GetResponseStream()).ReadToEnd());
-            Hwr.GetResponse().Close();
+            string result = GerResult(browserUrl + value.ToString());
+            if (result != string.Empty)
+            {
+                GerResult(browserUrl);
+            }
         }
 
         public static void GetUpdate()
@@ -63,29 +43,36 @@ namespace StudentControl.Model
             webClient.DownloadFile(browserUrl, Process.GetCurrentProcess().MainModule.FileName);
         }
 
+        private static string GerResult(string url)
+        {
+            HttpWebRequest Hwr = (HttpWebRequest)WebRequest.Create(url);
+            Hwr.Method = "POST";
+            Hwr.UserAgent = header_UA;
+            Hwr.ContentType = header_ConType;
+            Hwr.Timeout = 5000;
+
+            try
+            {
+                using (StreamReader streamReader = new StreamReader(Hwr.GetResponse().GetResponseStream()))
+                {
+                    return streamReader.ReadToEnd();
+                }
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
         public static string GetVersion()
         {
             while (true)
             {
                 string browserUrl = "http://iubns.com/Capstone/pro/version";
-
-                HttpWebRequest Hwr = (HttpWebRequest)WebRequest.Create(browserUrl);
-                Hwr.Method = "POST";
-                Hwr.UserAgent = header_UA;
-                Hwr.ContentType = header_ConType;
-                Hwr.SendChunked = false;
-                Hwr.CookieContainer = new CookieContainer();
-
-                Hwr.Timeout = 5000;
-                try
+                string result = GerResult(browserUrl);
+                if (result != string.Empty)
                 {
-                    string result = (new StreamReader(((HttpWebResponse)Hwr.GetResponse()).GetResponseStream()).ReadToEnd());
-                    Hwr.GetResponse().Close();
-                    return result;
-                }
-                catch
-                {
-
+                    return GerResult(browserUrl);
                 }
             }
         }

@@ -22,7 +22,6 @@ namespace CapstoneDesign
                 }
                 catch
                 {
-
                 }
             }
         }
@@ -61,7 +60,6 @@ namespace CapstoneDesign
             }
             catch
             {
-
             }
             return;
         }
